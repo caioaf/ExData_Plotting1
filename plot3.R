@@ -15,11 +15,12 @@ source("./extract_and_select_data.R")
 # 
 # ggsave("./plot3.png")
 ################################################################################
-
+png('./plot3.png')
 plot(x = single_day_subset$Date_and_time,
      y = single_day_subset$Sub_metering_1,
      type="l",
-     xlab = '')
+     xlab = '',
+     ylab = 'Energy sub metering')
 
 lines(x = single_day_subset$Date_and_time,
      y = single_day_subset$Sub_metering_2,
@@ -33,5 +34,4 @@ legend("topright",
        legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
        col = c("black", "red", "blue"), lty = 1)
 
-dev.copy(png,'./plot3.png')
 dev.off()

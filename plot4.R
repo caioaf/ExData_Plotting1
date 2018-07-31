@@ -41,6 +41,41 @@ source("./extract_and_select_data.R")
 # 
 # grid.arrange(p1,p2,p3,p4, nrow = 2, ncol = 2)
 ################################################################################
+png('./plot4.png')
+par(mfrow = c(2,2))
+plot(x = single_day_subset$Date_and_time, 
+           y = single_day_subset$Global_active_power, 
+           type = "l",
+           xlab = '',
+           ylab = "Global Active Power (kilowatts)")
+plot(x = single_day_subset$Date_and_time, 
+           y = single_day_subset$Voltage, 
+           type = "l",
+           xlab = 'datetime',
+           ylab = "Voltage")
+plot(x = single_day_subset$Date_and_time,
+     y = single_day_subset$Sub_metering_1,
+     type="l",
+     xlab = '',
+     ylab = 'Energy sub metering')
 
-dev.copy(png,'./plot4.png')
+lines(x = single_day_subset$Date_and_time,
+      y = single_day_subset$Sub_metering_2,
+      col = "red")
+
+lines(x = single_day_subset$Date_and_time,
+      y = single_day_subset$Sub_metering_3,
+      col = "blue")
+
+legend("topright",
+       legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
+       col = c("black", "red", "blue"), lty = 1)
+#Set the threshold lower so that bigger numbers get turned into scientific notation
+options(scipen = 3)
+plot(x = single_day_subset$Date_and_time,
+     y = single_day_subset$Global_reactive_power,
+     type = 'l',
+     xlab = 'datetime',
+     ylab = 'Global_reactive_power')
+
 dev.off()

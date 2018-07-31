@@ -21,5 +21,7 @@ for (name in names(single_day_subset)) {
   }
 }
 
+single_day_subset[["Voltage"]] <- single_day_subset[["Voltage"]]/1000
+
 # Create an extra column that combines both the date and time into a single data structure
 single_day_subset <- add_column(single_day_subset, "Date_and_time" = ymd_hms(paste0(single_day_subset[["Date"]], "T", single_day_subset[["Time"]])))

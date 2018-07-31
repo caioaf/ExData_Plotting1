@@ -11,12 +11,12 @@ source("./extract_and_select_data.R")
 # 
 # ggsave("./plot1.png")
 ################################################################################
-
+png('./plot1.png')
 hist(single_day_subset$Global_active_power,
      col = "red",
      xlab = "Global Active Power (killowatts)",
      ylab = "Frequency",
      main = "Global Active Power")
 
-dev.copy(png,'./plot1.png')
+
 dev.off()

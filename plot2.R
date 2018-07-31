@@ -9,11 +9,11 @@ source("./extract_and_select_data.R")
 # 
 # ggsave("./plot2.png")
 ################################################################################
+png('./plot2.png')
 plot(x = single_day_subset$Date_and_time, 
      y = single_day_subset$Global_active_power, 
      type = "l",
      xlab = '',
      ylab = "Global Active Power (kilowatts)")
 
-dev.copy(png,'./plot2.png')
 dev.off()
