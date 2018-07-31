@@ -20,7 +20,7 @@ for (name in names(single_day_subset)) {
     single_day_subset[[name]] <- as.numeric(single_day_subset[[name]])
   }
 }
-
+# In order to match the expected y-axis tic mark labels in plot 4.
 single_day_subset[["Voltage"]] <- single_day_subset[["Voltage"]]/1000
 
 # Create an extra column that combines both the date and time into a single data structure

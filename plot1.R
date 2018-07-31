@@ -1,3 +1,4 @@
+# This file reads in the data
 source("./extract_and_select_data.R")
 
 #ggplot2 method

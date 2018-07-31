@@ -1,3 +1,4 @@
+# This file reads in the data
 source("./extract_and_select_data.R")
 
 ##ggplot2 method
@@ -70,8 +71,7 @@ lines(x = single_day_subset$Date_and_time,
 legend("topright",
        legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
        col = c("black", "red", "blue"), lty = 1)
-#Set the threshold lower so that bigger numbers get turned into scientific notation
-options(scipen = 3)
+
 plot(x = single_day_subset$Date_and_time,
      y = single_day_subset$Global_reactive_power,
      type = 'l',
