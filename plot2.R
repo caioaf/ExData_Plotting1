@@ -1,9 +1,19 @@
-library(tidyverse)
-if(!file.exists("data.zip")) {
-  link = "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
-  download.file(url = link,destfile = "data.zip", mode='wb')
-  unzip("./data.zip")
-  unlink("./data.zip")
-}
+source("./extract_and_select_data.R")
 
-data <- read_csv2("./household_power_consumption.txt")
+#ggplot2 method
+################################################################################
+# ggplot(data = single_day_subset) +
+#   geom_line(mapping = aes(x=Date_and_time, y = Global_active_power)) +
+#   labs(x = NULL,
+#        y = "Global Active Power (kilowatts)")
+# 
+# ggsave("./plot2.png")
+################################################################################
+plot(x = single_day_subset$Date_and_time, 
+     y = single_day_subset$Global_active_power, 
+     type = "l",
+     xlab = '',
+     ylab = "Global Active Power (kilowatts)")
+
+dev.copy(png,'./plot2.png')
+dev.off()
