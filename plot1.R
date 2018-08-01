@@ -1,23 +1,17 @@
-# This file reads in the data
-source("./extract_and_select_data.R")
+# Load data
+library(dplyr)
 
-#ggplot2 method
-################################################################################
-# ggplot(data = single_day_subset) +
-#   geom_histogram(mapping = aes(x= Global_active_power, fill = "red"),
-#                    color = "black", bins = 18, show.legend = FALSE) +
-#   labs(title = "Global Active Power",
-#       x = "Global Active Power (killowatts)",
-#       y = "Frequency")
-# 
-# ggsave("./plot1.png")
-################################################################################
-png('./plot1.png')
-hist(single_day_subset$Global_active_power,
-     col = "red",
-     xlab = "Global Active Power (killowatts)",
-     ylab = "Frequency",
-     main = "Global Active Power")
+fullData <- read.table("household_power_consumption.txt", na.strings = "?", sep = ";", header = TRUE)
+fullData$Date <- as.Date(fullData$Date, "%d/%m/%Y")
+data <- filter(fullData, Date >= "2007-02-01", Date <= "2007-02-02")
 
+datetime <- paste(data$Date, data$Time)
+data$datetime <- as.POSIXct(datetime)
 
+# Plot chart 1
+par(mfrow = c(1, 1))
+with(data, hist(Global_active_power, xlab = "Global Active Power (kilowatts)", main = "Global Active Power", col = "red"))
+
+# Save pictures
+dev.copy(png, file="plot1.png", height=480, width=480)
 dev.off()

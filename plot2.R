@@ -1,20 +1,17 @@
-# This file reads in the data
-source("./extract_and_select_data.R")
+# Load data
+library(dplyr)
 
-#ggplot2 method
-################################################################################
-# ggplot(data = single_day_subset) +
-#   geom_line(mapping = aes(x=Date_and_time, y = Global_active_power)) +
-#   labs(x = NULL,
-#        y = "Global Active Power (kilowatts)")
-# 
-# ggsave("./plot2.png")
-################################################################################
-png('./plot2.png')
-plot(x = single_day_subset$Date_and_time, 
-     y = single_day_subset$Global_active_power, 
-     type = "l",
-     xlab = '',
-     ylab = "Global Active Power (kilowatts)")
+fullData <- read.table("household_power_consumption.txt", na.strings = "?", sep = ";", header = TRUE)
+fullData$Date <- as.Date(fullData$Date, "%d/%m/%Y")
+data <- filter(fullData, Date >= "2007-02-01", Date <= "2007-02-02")
 
+datetime <- paste(data$Date, data$Time)
+data$datetime <- as.POSIXct(datetime)
+
+# Plot chart 2
+par(mfrow = c(1, 1))
+with(data, plot(Global_active_power ~ datetime, type="l", xlab = "", ylab = "Global Active Power (kilowatts)"))
+
+# Save pictures
+dev.copy(png, file="plot2.png", height=480, width=480)
 dev.off()

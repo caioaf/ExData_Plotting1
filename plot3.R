@@ -1,38 +1,21 @@
-# This file reads in the data
-source("./extract_and_select_data.R")
+# Load data
+library(dplyr)
 
-#ggplot2 
-################################################################################
-# ggplot(data = single_day_subset, mapping = aes(x = Date_and_time)) +
-#   geom_line(mapping = aes(y = Sub_metering_1, color = 'Sub_metering_1')) +
-#   geom_line(mapping = aes(y = Sub_metering_2, color = 'Sub_metering_2')) +
-#   geom_line(mapping = aes(y = Sub_metering_3, color = 'Sub_metering_3')) +
-#   labs(x = NULL,
-#        y = "Energy sub metering") +
-#   scale_colour_manual("",
-#                       breaks = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
-#                       values = c("red", "green", "blue"))
-# 
-# 
-# ggsave("./plot3.png")
-################################################################################
-png('./plot3.png')
-plot(x = single_day_subset$Date_and_time,
-     y = single_day_subset$Sub_metering_1,
-     type="l",
-     xlab = '',
-     ylab = 'Energy sub metering')
+fullData <- read.table("household_power_consumption.txt", na.strings = "?", sep = ";", header = TRUE)
+fullData$Date <- as.Date(fullData$Date, "%d/%m/%Y")
+data <- filter(fullData, Date >= "2007-02-01", Date <= "2007-02-02")
 
-lines(x = single_day_subset$Date_and_time,
-     y = single_day_subset$Sub_metering_2,
-     col = "red")
+datetime <- paste(data$Date, data$Time)
+data$datetime <- as.POSIXct(datetime)
 
-lines(x = single_day_subset$Date_and_time,
-      y = single_day_subset$Sub_metering_3,
-      col = "blue")
+# Plot chart 3
+par(mfrow = c(1, 1))
+with(data, plot(Sub_metering_1 ~ datetime, type="l", xlab = "", ylab = "Global Active Power (kilowatts)"))
+with(data, lines(Sub_metering_2 ~ datetime, col='red') )
+with(data, lines(Sub_metering_3 ~ datetime, col='blue') )
+legend("topright", col=c("black", "red", "blue"), lty=1,
+       legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
 
-legend("topright",
-       legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
-       col = c("black", "red", "blue"), lty = 1)
-
+# Save pictures
+dev.copy(png, file="plot3.png", height=480, width=480)
 dev.off()
